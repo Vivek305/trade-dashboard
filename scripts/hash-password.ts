@@ -2,7 +2,7 @@
  * Generates the value for APP_PASSWORD_HASH.
  * Usage: npm run hash-password -- "my-app-password"
  */
-import { hashPassword } from "../lib/auth/password";
+import { hashPassword } from "../lib/auth/password-core";
 
 const password = process.argv[2];
 if (!password) {
