@@ -1,0 +1,40 @@
+name: trading-journal
+
+# Run with: docker compose --env-file .env.local up -d
+# (the default `.env` lookup is skipped on purpose — secrets live only in .env.local, see .gitignore)
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    env_file:
+      - .env.local
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  web:
+    build:
+      context: .
+      dockerfile: web.Dockerfile
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    env_file:
+      - .env.local
+    environment:
+      # Inside the compose network the DB is reachable via the "postgres" service name,
+      # overriding the host-oriented DATABASE_URL from .env.local.
+      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}
+    ports:
+      - "3000:3000"
+
+volumes:
+  pgdata:

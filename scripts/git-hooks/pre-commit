@@ -29,7 +29,13 @@ for file in $staged_files; do
   [ "$file" = ".env.example" ] && continue
   [ -f "$file" ] || continue
 
-  if git diff --cached -- "$file" | grep -E '^\+' | grep -Ev '^\+\+\+' | grep -Eiq "$secret_pattern"; then
+  # Exclude lines whose value is a docker-compose/shell variable reference (${VAR}),
+  # e.g. `DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@...` —
+  # those are templates, not literal secrets.
+  if git diff --cached -- "$file" \
+    | grep -E '^\+' | grep -Ev '^\+\+\+' \
+    | grep -Ev '\$\{[A-Za-z_][A-Za-z0-9_]*\}' \
+    | grep -Eiq "$secret_pattern"; then
     echo "pre-commit: possible secret detected in $file (matches $secret_pattern)"
     blocked=1
   fi

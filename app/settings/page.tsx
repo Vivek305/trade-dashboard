@@ -1,7 +1,9 @@
 import Link from "next/link";
-import { Plus, RefreshCw, KeyRound, Archive } from "lucide-react";
+import { Plus, Archive } from "lucide-react";
 import { Panel, Button } from "@/components/ui";
 import { TAGS, SYNC_LOG, LAST_SYNC } from "@/lib/data";
+import { getSchwabConnectionStatus } from "./actions";
+import { SchwabConnectionPanel } from "@/components/SchwabConnectionPanel";
 
 function SyncStatus({ s }: { s: "success" | "partial" | "failed" }) {
   const map = {
@@ -36,7 +38,9 @@ function TagColumn({ category }: { category: "setup" | "mistake" }) {
   );
 }
 
-export default function SettingsPage() {
+export default async function SettingsPage() {
+  const schwabStatus = await getSchwabConnectionStatus();
+
   return (
     <div className="space-y-4">
       <div>
@@ -47,27 +51,10 @@ export default function SettingsPage() {
       <div className="grid grid-cols-1 gap-4 xl:grid-cols-2">
         {/* Schwab connection */}
         <Panel title="Schwab Connection" subtitle="Read-only · positions, transactions, price history">
-          <div className="space-y-4">
-            <div className="flex items-center justify-between rounded-lg border border-zinc-800 bg-zinc-950/50 px-3 py-3">
-              <div>
-                <p className="flex items-center gap-2 text-sm font-medium text-zinc-100">
-                  <span className="h-2 w-2 rounded-full bg-emerald-400" /> Connected
-                </p>
-                <p className="mt-0.5 text-xs text-zinc-500">Account U••••678 (hashed) · OAuth</p>
-              </div>
-              <div className="flex gap-2">
-                <Button><KeyRound className="h-3.5 w-3.5" /> Re-auth</Button>
-                <Button variant="primary"><RefreshCw className="h-3.5 w-3.5" /> Refresh</Button>
-              </div>
-            </div>
-            <div className="flex items-center justify-between text-sm">
-              <span className="text-zinc-500">Last sync</span>
-              <span className="text-zinc-200">{LAST_SYNC}</span>
-            </div>
-            <div className="flex items-center justify-between text-sm">
-              <span className="text-zinc-500">Sync cadence</span>
-              <span className="text-zinc-200">Manual (end-of-day)</span>
-            </div>
+          <SchwabConnectionPanel status={schwabStatus} />
+          <div className="mt-4 flex items-center justify-between border-t border-zinc-800 pt-4 text-sm">
+            <span className="text-zinc-500">Last sync</span>
+            <span className="text-zinc-200">{LAST_SYNC}</span>
           </div>
         </Panel>
 
