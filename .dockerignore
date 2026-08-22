@@ -1,0 +1,23 @@
+# version control / editor
+.git/
+.gitignore
+
+# never let secrets or local certs into a build context/image layer
+.env
+.env.local
+.env.*.local
+*.pem
+*.key
+*.crt
+/certs/
+
+# build artifacts / deps (installed fresh inside the image)
+node_modules/
+.next/
+out/
+
+# misc
+npm-debug.log*
+*.log
+.DS_Store
+docs/

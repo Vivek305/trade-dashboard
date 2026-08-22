@@ -1,0 +1,24 @@
+# dependencies
+node_modules/
+
+# next.js build output
+.next/
+out/
+
+# env files - real secrets live only in these, never commit
+.env
+.env.local
+.env.*.local
+
+# local TLS certs used by the schwab-auth handshake script
+*.pem
+*.key
+*.crt
+/certs/
+
+# logs
+npm-debug.log*
+*.log
+
+# os / editor
+.DS_Store

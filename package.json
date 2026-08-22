@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "prepare": "git config core.hooksPath scripts/git-hooks"
   },
   "dependencies": {
     "lucide-react": "^0.525.0",
