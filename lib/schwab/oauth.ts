@@ -1,4 +1,3 @@
-import "server-only";
 import { randomBytes } from "node:crypto";
 
 // Pure OAuth logic — no DB or Next.js imports, so it can be used identically from

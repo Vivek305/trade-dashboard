@@ -1,4 +1,3 @@
-import "server-only";
 import { pgTable, text, jsonb, timestamp } from "drizzle-orm/pg-core";
 
 // Generic key-value store — see design_doc.md §4.11.
