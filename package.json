@@ -10,6 +10,7 @@
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
     "db:up": "tsx scripts/migrate.ts",
+    "db:seed": "tsx scripts/seed.ts",
     "predev": "npm run db:up",
     "prestart": "npm run db:up",
     "schwab:auth": "tsx scripts/schwab-auth.ts",
