@@ -15,22 +15,27 @@ export default function LoginPage() {
     setSubmitting(true);
     setError(null);
 
-    const res = await fetch("/api/auth/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ password }),
-    });
-
+    try{
+      const res = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ password }),
+      });
+    
     if (!res.ok) {
       const body = await res.json().catch(() => ({}));
       setError(body.error ?? "Login failed.");
-      setSubmitting(false);
       return;
     }
 
     router.push(searchParams.get("from") || "/");
     router.refresh();
+  } catch {
+    setError("Unable to reach the logic. Check server logs");
+  } finally {
+    setSubmitting(false);
   }
+}
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-zinc-950 px-4">

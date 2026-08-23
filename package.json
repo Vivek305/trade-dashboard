@@ -9,6 +9,9 @@
     "prepare": "git config core.hooksPath scripts/git-hooks",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
+    "db:up": "tsx scripts/migrate.ts",
+    "predev": "npm run db:up",
+    "prestart": "npm run db:up",
     "schwab:auth": "tsx scripts/schwab-auth.ts",
     "hash-password": "tsx scripts/hash-password.ts"
   },

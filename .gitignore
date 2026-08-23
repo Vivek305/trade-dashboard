@@ -20,5 +20,8 @@ out/
 npm-debug.log*
 *.log
 
+# local screenshot storage (see .env.example SCREENSHOT_DIR)
+/data/
+
 # os / editor
 .DS_Store
